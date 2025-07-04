@@ -6,7 +6,7 @@ const CACHE_NAME = 'dictionary-pwa-cache-v1';
 const BASE_PATH = '/pwa2/';
 
 // Automatically generate the full paths for the Soomaali Mansuur dictionary files.
-const SOOMAALI_FILES = "abcdefghijklmnopqrstuvwxy".split('').map(char => `${BASE_PATH}dictionaries/soomaali_mansuur/${char}.json`);
+const SOOMAALI_FILES = "abcdefghijklmnoqrstuwxy".split('').map(char => `${BASE_PATH}dictionaries/soomaali_mansuur/${char}.json`);
 
 // A list of all the files and assets we want to cache for offline use.
 const URLS_TO_CACHE = [

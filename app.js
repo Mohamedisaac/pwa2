@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Soomaali Mansuur",
             path: "dictionaries/soomaali_mansuur/",
             type: "multi",
-            files: "abcdefghijklmnopqrstuvwxy".split('') // a-y
+            files: "abcdefghijklmnoqrstuwxy".split('') // a-y
         }
     ];
 
