@@ -17,6 +17,8 @@ const URLS_TO_CACHE = [
     `${BASE_PATH}manifest.json`,
     `${BASE_PATH}icons/icon-192x192.png`,
     `${BASE_PATH}icons/icon-512x512.png`,
+    `${BASE_PATH}icons/screen1.jpg`,
+    `${BASE_PATH}icons/screen2.jpg`,
     `${BASE_PATH}dictionaries/biology.json`,
     `${BASE_PATH}dictionaries/physics.json`,
     `${BASE_PATH}dictionaries/geography.json`,
