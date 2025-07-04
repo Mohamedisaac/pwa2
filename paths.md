@@ -49,6 +49,19 @@ Adding `"scope": "/pwa/"` is also a best practice. It tells the browser that thi
 
 ---
 
+Richer PWA Intall UI :
+``` json
+ "screenshots": [
+    {
+     "src": "source/image1.png",
+      "sizes": "640x320",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Wonder Widgets"
+    }
+]
+````
+
 ### 2. Important: Other Required Changes
 
 The `start_url` is not the only path that needs updating. Any path in your JavaScript that starts with a `/` is an *absolute path from the domain root* and must also be prefixed with your repository name.
