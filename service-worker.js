@@ -1,19 +1,20 @@
 const CACHE_NAME = 'dictionary-pwa-cache-v1';
+const BASE_PATH = '/pwa/'; // The name of your GitHub repository
 
 // Generate the list of files to cache automatically
-const SOOMAALI_FILES = "abcdefghijklmnopqrstuvwxy".split('').map(char => `dictionaries/soomaali_mansuur/${char}.json`);
+const SOOMAALI_FILES = "abcdefghijklmnopqrstuvwxy".split('').map(char => `${BASE_PATH}dictionaries/soomaali_mansuur/${char}.json`);
 
 const URLS_TO_CACHE = [
-    '/',
-    '/index.html',
-    '/style.css',
-    '/app.js',
-    '/manifest.json',
-    '/icons/icon-192x192.png',
-    '/icons/icon-512x512.png',
-    '/dictionaries/biology.json',
-    '/dictionaries/physics.json',
-    '/dictionaries/geography.json',
+    BASE_PATH,
+    `${BASE_PATH}index.html`,
+    `${BASE_PATH}style.css`,
+    `${BASE_PATH}app.js`,
+    `${BASE_PATH}manifest.json`,
+    `${BASE_PATH}icons/icon-192x192.png`,
+    `${BASE_PATH}icons/icon-512x512.png`,
+    `${BASE_PATH}dictionaries/biology.json`,
+    `${BASE_PATH}dictionaries/physics.json`,
+    `${BASE_PATH}dictionaries/geography.json`,
     ...SOOMAALI_FILES
 ];
 
