@@ -3,7 +3,7 @@ const CACHE_NAME = 'dictionary-pwa-cache-v1';
 
 // The base path of your application on the server.
 // This is crucial for GitHub Pages deployment.
-const BASE_PATH = '/pwa/';
+const BASE_PATH = '/pwa2/';
 
 // Automatically generate the full paths for the Soomaali Mansuur dictionary files.
 const SOOMAALI_FILES = "abcdefghijklmnopqrstuvwxy".split('').map(char => `${BASE_PATH}dictionaries/soomaali_mansuur/${char}.json`);
