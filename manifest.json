@@ -6,7 +6,7 @@
     "scope": "/pwa2/",
     "display": "standalone",
     "orientation": "portrait-primary",
-    "background_color": "#3A86FF",
+    "background_color": "#EAFDFC",
     "theme_color": "#A0D2EB",
     "display_override": ["window-controls-overlay"],
     "icons": [
