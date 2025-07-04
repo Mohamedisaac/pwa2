@@ -1,50 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- PWA Install Prompt Logic (NEW CODE ADDED HERE) ---
-    let deferredPrompt; // This variable will save the event that triggers the prompt
-    const installButton = document.getElementById('install-button');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent the default browser prompt
-        e.preventDefault();
-        // Stash the event so it can be triggered later.
-        deferredPrompt = e;
-        // Show your custom install button
-        if (installButton) {
-            installButton.style.display = 'block';
-        }
-        console.log('`beforeinstallprompt` event was fired, installation is possible.');
-    });
-
-    if (installButton) {
-        installButton.addEventListener('click', async () => {
-            // Hide your custom button
-            installButton.style.display = 'none';
-            // Show the browser's install prompt
-            deferredPrompt.prompt();
-            // Wait for the user to respond
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log(`User response to the install prompt: ${outcome}`);
-            // The prompt can only be used once, clear it.
-            deferredPrompt = null;
-        });
-    }
-
-    window.addEventListener('appinstalled', () => {
-        // Hide the install button if the app is installed successfully
-        if (installButton) {
-            installButton.style.display = 'none';
-        }
-        deferredPrompt = null;
-        console.log('PWA was installed');
-    });
-    // --- END OF NEW CODE ---
-
-
     // --- PWA Service Worker Registration ---
     if ('serviceWorker' in navigator) {
-        // I've added the scope for best practice, but the path is the same as yours
-        navigator.serviceWorker.register('/pwa2/service-worker.js', { scope: '/pwa2/' })
+        navigator.serviceWorker.register('/pwa2/service-worker.js')
             .then(registration => {
                 console.log('Service Worker registered with scope:', registration.scope);
             }).catch(error => {
@@ -82,49 +40,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Functions ---
 
-    /**
-     * Fetches and loads all dictionaries defined in the config.
-     */
-    async function loadAllData() {
-        for (const dict of dictionaryConfig) {
-            if (dict.type === 'single') {
-                try {
-                    const response = await fetch(dict.path);
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                    allData[dict.name] = await response.json();
-                } catch (e) {
-                    console.error(`Failed to load ${dict.name}`, e);
-                    allData[dict.name] = {}; // Avoid errors later
-                }
-            } else if (dict.type === 'multi') {
-                const multiFileData = {};
-                const promises = dict.files.map(file =>
-                    fetch(`${dict.path}${file}.json`)
-                    .then(res => {
-                        if (!res.ok) {
-                            // This will cause the promise to be 'rejected' but won't stop others.
-                            throw new Error(`File not found: ${file}.json`);
-                        }
-                        return res.json();
-                    })
-                );
-
-                // Use Promise.allSettled to wait for all fetches, even if some fail (404)
-                const results = await Promise.allSettled(promises);
-
-                results.forEach(result => {
-                    // Only process the promises that were 'fulfilled' (i.e., the file existed and was loaded)
-                    if (result.status === 'fulfilled') {
-                        Object.assign(multiFileData, result.value);
-                    }
-                });
-
-                allData[dict.name] = multiFileData;
+ /**
+ * Fetches and loads all dictionaries defined in the config.
+ */
+async function loadAllData() {
+    for (const dict of dictionaryConfig) {
+        if (dict.type === 'single') {
+            try {
+                const response = await fetch(dict.path);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                allData[dict.name] = await response.json();
+            } catch (e) {
+                console.error(`Failed to load ${dict.name}`, e);
+                allData[dict.name] = {}; // Avoid errors later
             }
+        } else if (dict.type === 'multi') {
+            const multiFileData = {};
+            const promises = dict.files.map(file =>
+                fetch(`${dict.path}${file}.json`)
+                .then(res => {
+                    if (!res.ok) {
+                        // This will cause the promise to be 'rejected' but won't stop others.
+                        throw new Error(`File not found: ${file}.json`);
+                    }
+                    return res.json();
+                })
+            );
+
+            // Use Promise.allSettled to wait for all fetches, even if some fail (404)
+            const results = await Promise.allSettled(promises);
+
+            results.forEach(result => {
+                // Only process the promises that were 'fulfilled' (i.e., the file existed and was loaded)
+                if (result.status === 'fulfilled') {
+                    Object.assign(multiFileData, result.value);
+                }
+            });
+            
+            allData[dict.name] = multiFileData;
         }
-        console.log("All dictionaries loaded.", allData);
-        populateDictionaryList();
     }
+    console.log("All dictionaries loaded.", allData);
+    populateDictionaryList();
+}
 
     /**
      * Handles the search logic.
@@ -160,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             searchResultsContainer.innerHTML = `<p class="placeholder">No results found for "${query}".</p>`;
         }
     }
-
+    
     /**
      * Creates buttons for each dictionary in the "Show All" tab.
      */
@@ -204,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dictionaryContentContainer.appendChild(entryItem);
         }
     }
-
+    
     /**
      * Switches between the 'Search' and 'Show All' tabs.
      */

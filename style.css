@@ -1,17 +1,17 @@
 /* --- Modern Blue Theme --- */
 :root {
-    /* -- Light Theme Variables -- */
-    --primary-blue: #3A86FF;
-    --background: #F0F4F8;
-    --surface: #FFFFFF;
-    --text-primary: #1D3557;
-    --text-secondary: #6C757D;
+    /* A vibrant, eye-catching blue palette */
+    --primary-blue: #3A86FF; /* A strong, modern blue */
+    --light-accent: #EBF2FF;  /* A very light blue for backgrounds and accents */
+    --white: #FFFFFF;
+    --dark-text: #1D3557;   /* A dark, desaturated blue for main text */
+    --subtle-text: #6C757D; /* A soft gray for secondary text */
     --border-color: #DEE2E6;
-    --accent-bg: #EBF2FF;
-
-    /* -- UI properties for consistency -- */
+    
+    /* UI properties for consistency */
     --border-radius: 12px;
     --soft-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --strong-shadow: 0 6px 16px rgba(58, 134, 255, 0.2);
 }
 
 *, *::before, *::after {
@@ -19,10 +19,10 @@
 }
 
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
     margin: 0;
-    background-color: var(--background);
-    color: var(--text-primary);
+    background-color: var(--light-accent);
+    color: var(--dark-text);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -30,31 +30,14 @@ body {
 
 header {
     background: var(--primary-blue);
-    color: var(--surface);
+    color: var(--white);
     padding: 1rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    text-align: center;
 }
 
 header h1 {
     margin: 0;
     font-size: 1.5rem;
-    flex-grow: 1;
-}
-
-#install-button {
-    display: none; /* Hidden by default, shown by JS when app is installable */
-    background: none;
-    border: none;
-    color: var(--surface);
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
-}
-#install-button:hover {
-    background-color: rgba(255, 255, 255, 0.15);
 }
 
 .tabs {
@@ -62,7 +45,7 @@ header h1 {
     justify-content: center;
     gap: 0.5rem;
     padding: 1rem 1rem 0 1rem;
-    background-color: var(--background);
+    background-color: var(--light-accent);
 }
 
 .tab-button {
@@ -71,18 +54,18 @@ header h1 {
     padding: 0.8rem 1rem;
     font-size: 1rem;
     font-weight: 600;
-    color: var(--text-secondary);
+    color: var(--subtle-text);
     background-color: transparent;
     border: none;
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    border-radius: var(--border-radius) var(--border-radius) 0 0; /* Rounded top corners */
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
-    top: 1px;
+    top: 1px; /* Align with top border of content */
 }
 
 .tab-button.active {
-    background-color: var(--surface);
+    background-color: var(--white);
     color: var(--primary-blue);
     border-top: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
@@ -91,25 +74,34 @@ header h1 {
 
 main {
     padding: 0 1rem 1.5rem 1rem;
-    background-color: var(--background);
+    background-color: var(--light-accent);
 }
 
 .view {
     display: none;
-    background-color: var(--surface);
+    background-color: var(--white);
     padding: 1.5rem;
     border-radius: var(--border-radius);
     box-shadow: var(--soft-shadow);
     border: 1px solid var(--border-color);
-    border-top-left-radius: 0;
+    border-top-left-radius: 0; /* Flatten corner under the tabs */
     border-top-right-radius: 0;
 }
 
-.view.active { display: block; }
+.view.active {
+    display: block;
+}
 
-#search-view { border-top-left-radius: var(--border-radius); }
-.tab-button.active[id="tab-search"] + #tab-show-all + main > #search-view { border-top-left-radius: 0; }
-.tab-button + .tab-button.active[id="tab-show-all"] + main > #search-view { border-top-right-radius: 0; }
+/* Specific styling for the Search tab content */
+#search-view {
+    border-top-left-radius: var(--border-radius); /* Ensure correct radius when tab is selected */
+}
+.tab-button.active[id="tab-search"] + #tab-show-all + main > #search-view {
+    border-top-left-radius: 0;
+}
+.tab-button + .tab-button.active[id="tab-show-all"] + main > #search-view {
+    border-top-right-radius: 0; /* this logic might get complex, simpler to style the view directly */
+}
 
 #search-input {
     width: 100%;
@@ -117,8 +109,7 @@ main {
     font-size: 1.1rem;
     border-radius: 8px;
     border: 1px solid var(--border-color);
-    background-color: var(--accent-bg);
-    color: var(--text-primary);
+    background-color: var(--light-accent);
     transition: all 0.2s ease;
     margin-bottom: 1.5rem;
 }
@@ -129,19 +120,26 @@ main {
     box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.25);
 }
 
-.results-container { margin-top: 1rem; }
+.results-container {
+    margin-top: 1rem;
+}
 
 .result-item, .entry-item {
     padding: 1rem 0.5rem;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid #f0f0f0;
 }
 
-.result-item:last-child, .entry-item:last-child { border-bottom: none; }
-.result-item p, .entry-item p { margin: 0; }
+.result-item:last-child, .entry-item:last-child {
+    border-bottom: none;
+}
+
+.result-item p, .entry-item p {
+    margin: 0;
+}
 
 .result-item strong, .entry-item strong {
     font-size: 1.15rem;
-    color: var(--text-primary);
+    color: var(--dark-text);
 }
 
 .result-item .source {
@@ -151,7 +149,7 @@ main {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: var(--primary-blue);
-    background-color: var(--accent-bg);
+    background-color: var(--light-accent);
     padding: 0.25rem 0.6rem;
     border-radius: 20px;
     margin-top: 0.5rem;
@@ -169,7 +167,7 @@ main {
 .dict-btn {
     padding: 0.6rem 1.2rem;
     border: 1px solid var(--border-color);
-    background-color: var(--surface);
+    background-color: var(--white);
     color: var(--primary-blue);
     font-weight: 600;
     border-radius: 8px;
@@ -185,8 +183,9 @@ main {
 
 .dict-btn.selected {
     background-color: var(--primary-blue);
-    color: var(--surface);
+    color: var(--white);
     border-color: var(--primary-blue);
+    box-shadow: var(--strong-shadow);
     transform: translateY(-2px);
 }
 
@@ -198,9 +197,9 @@ main {
 }
 
 .placeholder {
-    color: var(--text-secondary);
+    color: var(--subtle-text);
     text-align: center;
     padding: 3rem 1rem;
-    background-color: var(--accent-bg);
+    background-color: #fafafa;
     border-radius: 8px;
 }
