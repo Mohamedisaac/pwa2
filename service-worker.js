@@ -1,15 +1,14 @@
-// A name for our cache. This should be unique to your PWA2.
+// A name for our cache. This should be unique to your PWA.
 const CACHE_NAME = 'dictionary-pwa-cache-v1';
 
 // The base path of your application on the server.
 // This is crucial for GitHub Pages deployment.
-const BASE_PATH = '/pwa2/';
+const BASE_PATH = '/pwa/';
 
 // Automatically generate the full paths for the Soomaali Mansuur dictionary files.
 const SOOMAALI_FILES = "abcdefghijklmnopqrstuvwxy".split('').map(char => `${BASE_PATH}dictionaries/soomaali_mansuur/${char}.json`);
 
 // A list of all the files and assets we want to cache for offline use.
-// We include the base path for all assets.
 const URLS_TO_CACHE = [
     BASE_PATH,
     `${BASE_PATH}index.html`,
@@ -26,44 +25,44 @@ const URLS_TO_CACHE = [
 
 /**
  * INSTALL EVENT
- * This is triggered when the service worker is first installed.
- * We open the cache and add all our assets to it.
- * This version is resilient: it will not fail if some of the dictionary files are missing (404 error).
+ * This is the corrected version. It caches files one-by-one and ignores errors
+ * for missing files, preventing the entire installation from failing.
  */
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
-                console.log('Opened cache. Caching core assets.');
-                // We cache each file individually and catch any errors.
-                // This prevents the entire installation from failing if one file is not found.
+                console.log('Opened cache. Caching assets individually.');
+                // Create an array of promises, one for each file we want to cache.
                 const cachePromises = URLS_TO_CACHE.map(urlToCache => {
+                    // cache.add() returns a promise. We attach a .catch() to each one.
                     return cache.add(urlToCache).catch(err => {
-                        // Log the error for the specific file that failed, but don't stop the service worker.
+                        // This will log a warning for any file that fails to cache (like c.json),
+                        // but it will NOT stop the other files from being cached.
                         console.warn(`Failed to cache ${urlToCache}:`, err);
                     });
                 });
-                // Wait until all individual caching operations are settled.
+                // Promise.all() waits for all the individual cache operations to complete.
+                // Because we've caught the errors above, this Promise.all will not reject.
                 return Promise.all(cachePromises);
             })
     );
 });
 
+
 /**
  * FETCH EVENT
- * This is triggered for every network request made by the page.
- * We use a "Cache First, then Network" strategy.
+ * This is triggered for every network request. It serves from the cache first.
  */
 self.addEventListener('fetch', event => {
     event.respondWith(
-        // Try to find a matching request in the cache.
         caches.match(event.request)
             .then(response => {
                 // If a cached version is found, return it.
                 if (response) {
                     return response;
                 }
-                // If the request is not in the cache, fetch it from the network.
+                // If not in cache, fetch it from the network.
                 return fetch(event.request);
             })
     );
@@ -71,20 +70,15 @@ self.addEventListener('fetch', event => {
 
 /**
  * ACTIVATE EVENT
- * This is triggered when the new service worker becomes active.
- * It's the perfect place to clean up old, unused caches.
+ * This cleans up old, unused caches.
  */
 self.addEventListener('activate', event => {
-    // A list of caches we want to keep. In this case, only the current one.
     const cacheWhitelist = [CACHE_NAME];
-
     event.waitUntil(
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames.map(cacheName => {
-                    // If a cache is found that is not in our whitelist, delete it.
                     if (cacheWhitelist.indexOf(cacheName) === -1) {
-                        console.log('Deleting old cache:', cacheName);
                         return caches.delete(cacheName);
                     }
                 })
