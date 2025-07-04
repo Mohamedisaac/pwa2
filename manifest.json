@@ -1,0 +1,22 @@
+{
+    "name": "Terminology Dictionary",
+    "short_name": "Dictionary",
+    "description": "A fast, offline-first terminology dictionary PWA.",
+    "start_url": "/pwa2/",
+    "scope": "/pwa2/",
+    "display": "standalone",
+    "background_color": "#EAFDFC",
+    "theme_color": "#A0D2EB",
+    "icons": [
+        {
+            "src": "icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

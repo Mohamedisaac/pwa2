@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminology Dictionary</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Theme Color for Browser UI -->
+    <meta name="theme-color" content="#A0D2EB">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Terminology Dictionary</h1>
+    </header>
+
+    <nav class="tabs">
+        <button id="tab-search" class="tab-button active">Search</button>
+        <button id="tab-show-all" class="tab-button">Show All Dictionaries</button>
+    </nav>
+
+    <main>
+        <!-- Search View -->
+        <div id="search-view" class="view active">
+            <div class="search-container">
+                <input type="search" id="search-input" placeholder="Type a word to search...">
+            </div>
+            <div id="search-results" class="results-container">
+                <p class="placeholder">Search results will appear here.</p>
+            </div>
+        </div>
+
+        <!-- Show All Dictionaries View -->
+        <div id="dictionaries-view" class="view">
+            <div id="dictionary-list" class="dictionary-selector">
+                <!-- Dictionary buttons will be generated here by JS -->
+            </div>
+            <h2 id="current-dictionary-title"></h2>
+            <div id="dictionary-content" class="results-container">
+                 <p class="placeholder">Select a dictionary to see its entries.</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
