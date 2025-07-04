@@ -1,5 +1,5 @@
 const CACHE_NAME = 'dictionary-pwa-cache-v1';
-const BASE_PATH = '/pwa/'; // The name of your GitHub repository
+const BASE_PATH = '/pwa2/'; // The name of your GitHub repository
 
 // Generate the list of files to cache automatically
 const SOOMAALI_FILES = "abcdefghijklmnopqrstuvwxy".split('').map(char => `${BASE_PATH}dictionaries/soomaali_mansuur/${char}.json`);
