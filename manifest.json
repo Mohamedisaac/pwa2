@@ -5,6 +5,7 @@
     "start_url": "/pwa2/",
     "scope": "/pwa2/",
     "display": "standalone",
+    "orientation": "portrait-primary",
     "background_color": "#EAFDFC",
     "theme_color": "#A0D2EB",
     "display_override": ["window-controls-overlay"],
